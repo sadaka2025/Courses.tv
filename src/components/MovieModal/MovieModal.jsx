@@ -14,8 +14,9 @@ export default function MovieModal() {
   );
   if (!enabled || !video) return null;
 
-  const isYouTube =
-    typeof video.url === "string" && video.url.includes("youtu");
+  const isExternalLink =
+    typeof video.url === "string" &&
+    (video.url.includes("youtu") || video.url.includes("drive.google"));
 
   return (
     <motion.div
@@ -39,7 +40,7 @@ export default function MovieModal() {
 
         <div className="flex flex-col md:flex-row">
           <div className="relative w-full md:w-1/2 group">
-            {isYouTube ? (
+            {isExternalLink ? (
               <div
                 className="cursor-pointer relative"
                 onClick={() => window.open(video.url, "_blank")}
@@ -71,8 +72,8 @@ export default function MovieModal() {
             <div className="flex items-center gap-1">
               <AiFillStar size={16} className="text-yellow-500" />
               <span className="text-gray-400 text-sm">
-                {isYouTube
-                  ? "Série religieuse • نور اليقين"
+                {isExternalLink
+                  ? "Vidéo externe (YouTube / Google Drive)"
                   : "Matériel audio/vidéo local"}
               </span>
             </div>

@@ -3,38 +3,42 @@
     "id": 1,
     "title": "متون في الفقه",
     "description": "متنُ ابن عاشر (كاملٌ) صوت و صورة",
-    "thumbnail": "https://img.youtube.com/vi/XGFHsninoiQ/hqdefault.jpg",
+    "thumbnail": "/images/fiqh.png",
     "url": "https://drive.google.com/file/d/1z8IYP8aJnId1cyY09ZmkPuYOtlSdTcU5/preview"
   },
   {
     "id": 2,
-    "title": "متون في العقيدة",
+    "title": "متون في العقيدة 1",
     "description": "عقيدة الشذرات الذهبية على منظومة العقائد الشرنوبية و في طالع البشرى على العقيدة الصغرى",
-    "thumbnail": "https://img.youtube.com/vi/QfYgDfHA-ng/hqdefault.jpg",
-    "url": [
-      "https://drive.google.com/file/d/19ABf54XSVI2zt94xNTaSAZQxzAnQgaNu/preview",
-      "https://drive.google.com/file/d/1hRpQNltGV_ZEAPS6Smq62AX2bC9Rz1qb/preview"
-    ]
+    "thumbnail": "/images/aqida1.png",
+    "url": "https://drive.google.com/file/d/19ABf54XSVI2zt94xNTaSAZQxzAnQgaNu/preview"
   },
   {
     "id": 3,
-    "title": "متون في النحو",
-    "description": "متن الآجرومية في النحو",
-    "thumbnail": "https://img.youtube.com/vi/i1aVlZSpCsw/hqdefault.jpg",
-    "url": "https://drive.google.com/file/d/1oHUkOJ1aCekqBnaIbfUin94jOq2dVHZM/preview"
+    "title": "متون في العقيدة2",
+    "description": "عقيدة الشذرات الذهبية على منظومة العقائد الشرنوبية و في طالع البشرى على العقيدة الصغرى",
+    "thumbnail": "/images/aqida2.png",
+    "url": "https://drive.google.com/file/d/1hRpQNltGV_ZEAPS6Smq62AX2bC9Rz1qb/preview"
   },
   {
     "id": 4,
-    "title": "الحكم العطائية",
-    "description": "متن ابن عطاء الله الاسكندراني",
-    "thumbnail": "https://img.youtube.com/vi/RLNM9TdswOo/hqdefault.jpg",
-    "url": "https://drive.google.com/file/d/1i41ts1ytu9l1nOrw4RBOVUnVMGeux6u_/preview"
+    "title": "متون في النحو",
+    "description": "متن الآجرومية في النحو",
+    "thumbnail": "/images/nahw.png",
+    "url": "https://drive.google.com/file/d/1oHUkOJ1aCekqBnaIbfUin94jOq2dVHZM/preview"
   },
   {
     "id": 5,
+    "title": "الحكم العطائية",
+    "description": "متن ابن عطاء الله الاسكندراني",
+    "thumbnail": "/images/akhlaq.png",
+    "url": "https://drive.google.com/file/d/1i41ts1ytu9l1nOrw4RBOVUnVMGeux6u_/preview"
+  },
+  {
+    "id": 6,
     "title": "متون الجزرية",
     "description": "متن الجزرية بصوت الشيخ أيمن سويد",
-    "thumbnail": "https://img.youtube.com/vi/RLNM9TdswOo/hqdefault.jpg",
+    "thumbnail": "/images/tajwid.png",
     "url": "https://drive.google.com/file/d/1BvCmZM3jlInJ2vCcARXWd8B8VF049dxO/preview"
   }
 ]
