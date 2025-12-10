@@ -14,11 +14,10 @@ export default function Content() {
 
   return (
     <div className="flex-1 p-4">
-      <h2 className="text-2xl font-bold mb-2">{selectedGenre.title}</h2>
-
+      <h2 className="text-2xl font-bold mb-4">{selectedGenre.title}</h2>
       <div className="flex flex-wrap gap-4">
         {selectedGenre.videos.map((video, i) => (
-          <Movie key={i} data={video} />
+          <Movie key={i} data={video} dataset={selectedGenre.id} />
         ))}
       </div>
     </div>

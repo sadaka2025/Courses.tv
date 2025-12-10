@@ -12,20 +12,20 @@ export default function SideBar() {
   ];
 
   return (
-    <div>
+    <div className="w-48 bg-neutral-900 text-white h-screen p-4 overflow-y-auto">
       {categories.map((cat) => (
-        <div key={cat.id}>
-          <h2 className="cursor-pointer p-3 hover:bg-neutral-700">
+        <div key={cat.id} className="mb-4">
+          <h2 className="cursor-pointer p-3 hover:bg-neutral-700 rounded">
             {cat.title}
           </h2>
-          <div className="pl-4">
+          <div className="pl-2 flex flex-col gap-2">
             {cat.videos.map((video) => (
               <div
                 key={video.id}
                 onClick={() =>
                   dispatch(showMovie({ id: video.id, dataset: cat.id }))
                 }
-                className="cursor-pointer p-2 hover:bg-neutral-700 rounded"
+                className="cursor-pointer p-2 hover:bg-neutral-700 rounded bg-neutral-800 text-sm"
               >
                 {video.title}
               </div>
