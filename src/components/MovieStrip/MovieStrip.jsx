@@ -1,5 +1,5 @@
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import API from "../../services/API";
 import Movie from "../Movie/Movie";
 import useWindowDimensions from "../../services/useWindowDimensions";
@@ -8,16 +8,15 @@ import { useSelector } from "react-redux";
 import { selectSelectedGenres } from "../../redux/reducers/selectedGenresSlice";
 
 export default function MovieStrip(props) {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const { width } = useWindowDimensions();
-  const [movies, setMovies] = useState([]);
-  const [movieSection, setMovieSection] = useState([]);
+  const [isEnabled, setIsEnabled] = React.useState(false);
+  const { height, width } = useWindowDimensions();
+  const [movies, setMovies] = React.useState([]);
 
-  const [stripData, setStripData] = useState({
+  const [movieSection, setMovieSection] = React.useState();
+  const [stripData, setStripData] = React.useState({
     page: 1,
     pages: 1,
   });
-
   const selectedGenres = useSelector(selectSelectedGenres);
 
   useEffect(() => {
@@ -26,32 +25,40 @@ export default function MovieStrip(props) {
         stripData.page
       }&with_genres=${selectedGenres.toString()}`
     ).then((response) => {
-      const list = response?.data?.results ?? [];
-      setMovies(list);
+      setMovies((results) => {
+        return response.data.results.map((movie, i) => {
+          return <Movie key={movie.id} data={movie} pos={i} />;
+        });
+      });
     });
   }, [stripData, selectedGenres]);
 
   useEffect(() => {
-    if (!movies || movies.length === 0) {
+    if (movies.length <= 0) {
       setIsEnabled(false);
     } else {
       setIsEnabled(true);
-      const limit = Math.min(Math.floor(width / 220), 20);
-      setMovieSection(
-        movies
-          .slice(0, limit)
-          .map((movie, i) => <Movie key={movie.id} data={movie} pos={i} />)
-      );
+      let test = movies.map((movie) => {
+        return movie;
+      });
+      const slicedArray = test.slice(0, width / 220 > 20 ? 20 : width / 220);
+      setMovieSection(slicedArray);
     }
   }, [movies, width]);
 
   function nextSet() {
-    setStripData((prev) => ({ ...prev, page: prev.page + 1 }));
+    setStripData((prevState) => ({
+      ...prevState,
+      page: prevState.page + 1,
+    }));
   }
 
   function prevSet() {
     if (stripData.page === 1) return;
-    setStripData((prev) => ({ ...prev, page: prev.page - 1 }));
+    setStripData((prevState) => ({
+      ...prevState,
+      page: prevState.page - 1,
+    }));
   }
 
   return (
@@ -62,10 +69,8 @@ export default function MovieStrip(props) {
             {props.icon}
             <p>{props.name}</p>
           </div>
-
           <div className="relative ">
             <div className="flex space-x-3 ml-auto">{movieSection}</div>
-
             <motion.div
               className="absolute bg-neutral-800 cursor-pointer rounded p-1 top-[130px] left-[-17px]"
               onClick={prevSet}
@@ -74,7 +79,6 @@ export default function MovieStrip(props) {
             >
               <BiChevronLeft size={25} className="text-neutral-100" />
             </motion.div>
-
             <motion.div
               className="absolute bg-neutral-800 cursor-pointer rounded p-1 top-[130px] right-[-17px]"
               onClick={nextSet}
@@ -85,7 +89,9 @@ export default function MovieStrip(props) {
             </motion.div>
           </div>
         </div>
-      ) : null}
+      ) : (
+        <></>
+      )}
     </>
   );
 }
