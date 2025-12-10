@@ -1,22 +1,35 @@
-import axios from "axios";
+// src/services/API.jsx
 
-const instance = axios.create({
-    baseURL: "https://api.themoviedb.org/3",
-    headers: {
-        "Content-Type": "application/json"
-    },
-});
+import videos from "../data/nour-alyakine.json";
 
-instance.interceptors.request.use(
-    (config) => {
-        // TODO: Utilize environment variables. Using throwaway account for now.
-        config.headers["Authorization"] = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNjdiYTRmOWIwODBhNmEwNDQxMmNmMTIwYTU4YjM4NiIsInN1YiI6IjYzNDYyZGY5MDBmYjZiMDA3OWY0ODllMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.dsI7u_kFT_X0nXLUQOsTMDL2odaF2PhFr5pe2gU7V2M`;
-        return config;
-    },
-    (error) => {
-        console.log("REQUEST ERROR")
-        return Promise.reject(error);
-    }
-)
+// Simulation d'une API TMDB → mais en local
+const api = {
+  // Pour récupérer la liste des vidéos
+  get: async () => {
+    return {
+      data: {
+        results: videos,
+      },
+    };
+  },
 
-export default instance;
+  // Pour récupérer les détails d’une vidéo par ID
+  getById: async (id) => {
+    const video = videos.find((v) => v.id === Number(id));
+    return {
+      data: video || null,
+    };
+  },
+
+  // Pour la recherche
+  search: async (query) => {
+    const q = query.toLowerCase();
+    return {
+      data: {
+        results: videos.filter((v) => v.title.toLowerCase().includes(q)),
+      },
+    };
+  },
+};
+
+export default api;

@@ -1,172 +1,88 @@
 import React from "react";
-import {AiFillStar, AiOutlinePlayCircle} from "react-icons/ai";
-import {IoMdClose} from "react-icons/io";
-import {TbRotate360} from "react-icons/tb";
-import API from "../../services/API";
-import {useDispatch, useSelector} from "react-redux";
-import {hide, isEnabled, selectMovieId} from "../../redux/reducers/movieModalSlice";
-import {motion, useAnimationControls} from "framer-motion";
-import CastTile from "../CastTile/CastTile";
-import MovieProvider from "../MovieProvider/MovieProvider";
-import {useDetectClickOutside} from "react-detect-click-outside";
+import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { hide, selectMovieModal } from "../../redux/reducers/movieModalSlice";
+import { AiOutlinePlayCircle, AiFillStar } from "react-icons/ai";
+import { allVideos } from "../../data/allVideos";
 
-export default function MovieModal(){
+export default function MovieModal() {
+  const dispatch = useDispatch();
+  const { movieId, dataset, enabled } = useSelector(selectMovieModal);
 
-    const movieId = useSelector(selectMovieId);
-    const dispatch = useDispatch();
+  const video = allVideos.find(
+    (v) => v.id === movieId && v.dataset === dataset
+  );
+  if (!enabled || !video) return null;
 
-    const [movie, setMovie] = React.useState([]);
-    const [genres, setGenres] = React.useState();
-    const [runtime, setRuntime] = React.useState(0);
-    const [cast, setCast] = React.useState()
-    const [watchProviders, setWatchProviders] = React.useState([]);
+  const isYouTube =
+    typeof video.url === "string" && video.url.includes("youtu");
 
-    const [flipped, setFlipped] = React.useState(false);
+  return (
+    <motion.div
+      className="fixed inset-0 z-50 bg-black/80 flex justify-center items-center p-4 overflow-y-auto"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <motion.div
+        className="bg-neutral-900 rounded-xl shadow-xl text-white w-[750px] h-auto flex flex-col"
+        initial={{ scale: 0.8 }}
+        animate={{ scale: 1 }}
+      >
+        <div className="flex justify-end p-3">
+          <button
+            onClick={() => dispatch(hide())}
+            className="text-gray-300 hover:text-white text-xl"
+          >
+            ✖
+          </button>
+        </div>
 
+        <div className="flex flex-col md:flex-row">
+          <div className="relative w-full md:w-1/2 group">
+            {isYouTube ? (
+              <div
+                className="cursor-pointer relative"
+                onClick={() => window.open(video.url, "_blank")}
+              >
+                <img
+                  src={video.thumbnail}
+                  className="rounded-l-xl h-full w-full object-cover"
+                  alt={video.title}
+                />
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex justify-center items-center">
+                  <AiOutlinePlayCircle size={80} className="text-white" />
+                </div>
+              </div>
+            ) : (
+              <video controls className="rounded-l-xl w-full h-auto" autoPlay>
+                {Array.isArray(video.url) ? (
+                  video.url.map((src, i) => (
+                    <source key={i} src={src} type="video/mp4" />
+                  ))
+                ) : (
+                  <source src={video.url} type="video/mp4" />
+                )}
+              </video>
+            )}
+          </div>
 
-    React.useEffect(() => {
-        API.get(`/movie/${movieId}`)
-            .then(response => {
-                setMovie(response.data);
-                setGenres(response.data.genres.map((genre, i) => {
-                    return `${genre.name}${response.data.genres.length > ++i ? ", " : ""}`;
-                }));
-                setRuntime(response.data.runtime ?
-                    `${Math.floor(response.data.runtime / 60)}hr ${response.data.runtime % 60}m`
-                    :
-                    null
-                )
-            });
-        API.get(`/movie/${movieId}/credits`)
-            .then(response => {
-                setCast(response.data.cast.map((person, i) => {
-                    return <CastTile key={i} person={person}/>
-                }));
-
-            });
-        API.get(`/movie/${movieId}/watch/providers`)
-            .then(response => {
-                const data = response.data.results.US.flatrate.slice(0,5);
-                setWatchProviders(data.map(movieProvider => <MovieProvider key={movieProvider.provider_id} movieProvider={movieProvider}/>));
-            });
-    }, [movieId]);
-
-    const controls = useAnimationControls()
-
-    function toggleFlip(){
-        setFlipped(prevState => !prevState)
-    }
-
-    const openInNewTab = url => {
-        window.open(url, '_blank', 'noopener,noreferrer');
-    };
-
-    function getTrailer(){
-        API.get(`/movie/${movieId}/videos`)
-            .then(response => {
-                for(let i = 0; i < response.data.results.length; i++){
-                    if(response.data.results[i].type === "Trailer"){
-                        openInNewTab(`https://www.youtube.com/watch?v=${response.data.results[i].key}`)
-                        break;
-                    }
-                }
-                response.data.results.map(video => {
-                    if(video.type === "Trailer") return video
-                })
-            });
-    }
-
-    return(
-        <motion.div
-            className="absolute bg-neutral-800 rounded-xl text-neutral-100 w-[700px] h-96 drop-shadow-2xl"
-            animate={controls}
-        >
-            <div className="flex gap-2 absolute right-3 top-3">
-                <motion.div
-                    whileHover={{scale: 1.15}}
-                    whileTap={{scale: 0.9}}
-                >
-                    <TbRotate360
-                        className="cursor-pointer"
-                        size={18}
-                        onClick={toggleFlip}
-                    />
-                </motion.div>
-                <motion.div
-                    whileHover={{scale: 1.15}}
-                    whileTap={{scale: 0.9}}
-                >
-                    <IoMdClose
-                        className="cursor-pointer"
-                        size={18}
-                        onClick={() => dispatch(hide())}
-                    />
-                </motion.div>
+          <div className="w-full md:w-1/2 p-5 space-y-3">
+            <h1 className="text-3xl font-bold">{video.title}</h1>
+            <div className="flex items-center gap-1">
+              <AiFillStar size={16} className="text-yellow-500" />
+              <span className="text-gray-400 text-sm">
+                {isYouTube
+                  ? "Série religieuse • نور اليقين"
+                  : "Matériel audio/vidéo local"}
+              </span>
             </div>
-            {
-                !flipped ?
-                <div className="flex">
-                    <div className="flex-shrink-0 h-96 relative cursor-pointer" onClick={getTrailer}>
-                        <img
-                            className="h-96 rounded-l-xl "
-                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                            alt="Couldn't find image"
-                        />
-                        <div className="absolute top-0 left-0 w-full h-full bg-neutral-900 block opacity-0 hover:opacity-30 duration-300 flex items-center justify-center active:opacity-50">
-                            <AiOutlinePlayCircle size={64}/>
-                        </div>
-                    </div>
-
-                    <div className="">
-                        <div className="p-6 flex flex-col ">
-                            <h1 className="text-3xl ">{movie.title}</h1>
-                            <div className="flex items-center gap-1">
-                                <AiFillStar size="14" color="#EAB308"/>
-                                <h4 className="text-sm text-neutral-500">{movie.vote_average} • {movie.vote_count} votes
-                                    • {movie.release_date}</h4>
-                            </div>
-                            <div className="space-y-2">
-                                <h4 className="text-sm text-neutral-300 line-clamp-5">
-                                    <strong>Overview: </strong>
-                                    {movie.overview}
-                                </h4>
-                                <h4 className="text-sm text-neutral-300 line-clamp-1">
-                                    <strong>Genres: </strong>
-                                    {genres}
-                                </h4>
-                                { runtime &&
-                                    <h4 className="text-sm text-neutral-300 line-clamp-1">
-                                        <strong>Runtime: </strong>
-                                        {runtime}
-                                    </h4>
-                                }
-                                { watchProviders.length > 0 &&
-                                    <div className="flex flex-col gap-1.5 ">
-                                        <h4 className="text-sm text-neutral-300 line-clamp-6">
-                                            <strong>Watch Providers: </strong>
-                                        </h4>
-                                        <div className="flex ">
-                                            {watchProviders}
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                :
-                <div className="h-96 flex flex-col">
-                    <div className="flex gap-1 items-center p-3">
-                        <h1 className="text-neutral-200">Credits</h1>
-                    </div>
-                    <hr className="border-neutral-700"/>
-                    <div className="h-full overflow-x-hidden overflow-y-scroll">
-                        <div className="div_columns columns-2 overflow-x-hidden overflow-y-hidden ">
-                            {cast}
-                        </div>
-                    </div>
-                </div>
-            }
-        </motion.div>
-    );
+            <p className="text-gray-300 text-sm leading-relaxed line-clamp-6">
+              <strong>Description: </strong>
+              {video.description}
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
 }

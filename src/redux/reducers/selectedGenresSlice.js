@@ -1,22 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 export const selectedGenresSlice = createSlice({
-    name: 'selectedGenres',
-    initialState: {
-        genres: []
+  name: "selectedGenres",
+  initialState: {
+    genre: null, // 🔥 un seul genre : { id, title, videos }
+  },
+  reducers: {
+    setGenre: (state, action) => {
+      state.genre = action.payload;
     },
-    reducers: {
-        addGenre: (state, action) => {
-            state.genres = [...state.genres, action.payload]
-        },
-        removeGenre: (state, action) => {
-            state.genres = state.genres.filter(el => parseInt(el) !== parseInt(action.payload))
-        },
+    clearGenre: (state) => {
+      state.genre = null;
     },
-})
+  },
+});
 
-export const { addGenre, removeGenre } = selectedGenresSlice.actions
+export const { setGenre, clearGenre } = selectedGenresSlice.actions;
 
-export const selectSelectedGenres = (state) => state.selectedGenres.genres
+// Sélecteur officiel
+export const selectSelectedGenre = (state) => state.selectedGenres.genre;
 
-export default selectedGenresSlice.reducer
+export default selectedGenresSlice.reducer;

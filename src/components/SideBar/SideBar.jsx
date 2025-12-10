@@ -1,107 +1,38 @@
-import React from "react";
-import SideTile from "../SideTile/SideTile";
+import { useDispatch } from "react-redux";
+import { showMovie } from "../../redux/reducers/movieModalSlice";
+import motounData from "../../data/motoun.json";
+import nourData from "../../data/nour-alyakine.json";
 
-export default function SideBar(){
+export default function SideBar() {
+  const dispatch = useDispatch();
 
-    const [genres, setGenres] = React.useState([]);
-    React.useEffect(() => {
-        setGenres(prevState => {
-            return sampleGenreData.genres.map((genre, i) => {
-                return <SideTile
-                    key={genre.id}
-                    genre={genre}
-                    pos={i}
-                />
-            });
-        })
-    },[]);
+  const categories = [
+    { id: "motoun", title: "متون", videos: motounData },
+    { id: "nour", title: "نور اليقين", videos: nourData },
+  ];
 
-    return(
-        <div className="bg-neutral-800 text-neutral-100 p-2 pr-0 h-auto drop-shadow-lg">
-            <ul className="text-sm cursor-pointer space-y-0.5">
-                {genres}
-            </ul>
+  return (
+    <div>
+      {categories.map((cat) => (
+        <div key={cat.id}>
+          <h2 className="cursor-pointer p-3 hover:bg-neutral-700">
+            {cat.title}
+          </h2>
+          <div className="pl-4">
+            {cat.videos.map((video) => (
+              <div
+                key={video.id}
+                onClick={() =>
+                  dispatch(showMovie({ id: video.id, dataset: cat.id }))
+                }
+                className="cursor-pointer p-2 hover:bg-neutral-700 rounded"
+              >
+                {video.title}
+              </div>
+            ))}
+          </div>
         </div>
-    );
-}
-
-const sampleGenreData = {
-    "genres": [
-        {
-            "id": 28,
-            "name": "Action"
-        },
-        {
-            "id": 12,
-            "name": "Adventure"
-        },
-        {
-            "id": 16,
-            "name": "Animation"
-        },
-        {
-            "id": 35,
-            "name": "Comedy"
-        },
-        {
-            "id": 80,
-            "name": "Crime"
-        },
-        {
-            "id": 99,
-            "name": "Documentary"
-        },
-        {
-            "id": 18,
-            "name": "Drama"
-        },
-        {
-            "id": 10751,
-            "name": "Family"
-        },
-        {
-            "id": 14,
-            "name": "Fantasy"
-        },
-        {
-            "id": 36,
-            "name": "History"
-        },
-        {
-            "id": 27,
-            "name": "Horror"
-        },
-        {
-            "id": 10402,
-            "name": "Music"
-        },
-        {
-            "id": 9648,
-            "name": "Mystery"
-        },
-        {
-            "id": 10749,
-            "name": "Romance"
-        },
-        {
-            "id": 878,
-            "name": "Science Fiction"
-        },
-        {
-            "id": 10770,
-            "name": "TV Movie"
-        },
-        {
-            "id": 53,
-            "name": "Thriller"
-        },
-        {
-            "id": 10752,
-            "name": "War"
-        },
-        {
-            "id": 37,
-            "name": "Western"
-        }
-    ]
+      ))}
+    </div>
+  );
 }

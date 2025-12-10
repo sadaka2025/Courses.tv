@@ -1,27 +1,26 @@
-import React from "react";
-import {AiFillForward, AiFillStar} from "react-icons/ai";
-import {BiTrendingUp} from "react-icons/bi";
-import MovieStrip from "../MovieStrip/MovieStrip";
+import { useSelector } from "react-redux";
+import { selectSelectedGenre } from "../../redux/reducers/selectedGenresSlice";
+import Movie from "../Movie/Movie";
 
-export default function Content(){
+export default function Content() {
+  const selectedGenre = useSelector(selectSelectedGenre);
 
+  if (!selectedGenre)
     return (
-        <div className="bg-dark-gray p-6 space-y-3 ">
-            <MovieStrip
-                name="Popular"
-                icon={<BiTrendingUp size={20} color="#F21B3F"/>}
-                request={`/discover/movie?language=en-US&include_adult=false&sort_by=popularity.desc`}
-            />
-            <MovieStrip
-                name="Top Rated"
-                icon={<AiFillStar size={20} color="#FFE156"/>}
-                request={`/discover/movie?language=en-US&include_adult=false&sort_by=vote_count.desc`}
-            />
-            <MovieStrip
-                name="Upcoming"
-                icon={<AiFillForward size={20} color="#00FFFF"/>}
-                request={`/discover/movie?language=en-US&include_adult=false&primary_release_year=2023`}
-            />
-        </div>
+      <div className="flex-1 p-4 text-neutral-400">
+        Sélectionnez une catégorie pour voir les vidéos.
+      </div>
     );
+
+  return (
+    <div className="flex-1 p-4">
+      <h2 className="text-2xl font-bold mb-2">{selectedGenre.title}</h2>
+
+      <div className="flex flex-wrap gap-4">
+        {selectedGenre.videos.map((video, i) => (
+          <Movie key={i} data={video} />
+        ))}
+      </div>
+    </div>
+  );
 }

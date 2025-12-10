@@ -1,0 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --brand-clr: hsl(227, 100%, 66%);
+  --square--big: 6.25rem;
+  --square--small: calc(var(--square--big) / 2.375);
+}
+
+.full-on-css {
+  display: flex;
+  flex-flow: column;
+  overflow: hidden;
+}
+
+.logo-graphic {
+  place-self: center;
+  display: grid;
+  gap: 1em;
+  grid-template-rows: repeat(2, auto);
+  grid-template-columns: repeat(2, auto);
+  position: relative;
+  rotate: 45deg;
+  translate: 0 1rem;
+}
+
+.square {
+  aspect-ratio: 1;
+  outline: 0.125em solid var(--brand-clr);
+  outline-offset: 0.25em;
+  background: var(--brand-clr);
+}
+
+.square--big {
+  inline-size: var(--square--big);
+  grid-column: -1;
+  grid-row: 1;
+}
+
+.square--small {
+  inline-size: var(--square--small);
+}
+
+.square--small-a {
+  place-self: start end;
+  grid-row: 2;
+  grid-column: 2;
+}
+
+.square--small-b {
+  grid-row: 2;
+  grid-column: -1;
+}
+
+.square--small-c {
+  place-self: end;
+  grid-column: 2;
+}
+
+.brand-name {
+  line-height: 1;
+  margin-block: 1ex 0.125ex;
+  text-align: center;
+  font-weight: 500;
+  font-size: 2rem;
+  color: white;
+}
+
+.brand-name span {
+  font-weight: 700;
+}
+
+.slogan {
+  display: flex;
+  justify-content: center;
+  padding-inline: 1rem;
+  gap: 0.5rem;
+  background: var(--brand-clr);
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.slogan span {
+  font-weight: 300;
+}
