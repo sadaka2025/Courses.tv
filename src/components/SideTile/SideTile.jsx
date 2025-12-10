@@ -1,17 +1,24 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { setGenre, clearGenre } from "../../redux/reducers/selectedGenresSlice";
 
-export default function SideTile({ genre, pos, onSelect }) {
+export default function SideTile({ genre, pos }) {
   const [highlighted, setHighlighted] = React.useState(false);
+  const dispatch = useDispatch();
 
-  function handleClick() {
+  function toggleHighlighted() {
     setHighlighted((prev) => !prev);
-    onSelect && onSelect();
+    if (!highlighted) {
+      dispatch(setGenre(genre)); // sélectionne la catégorie
+    } else {
+      dispatch(clearGenre()); // désélectionne
+    }
   }
 
   const animations = {
     empty: { opacity: 0 },
-    fadeIn: { opacity: 1, transition: { duration: 0.3 * pos } },
+    fadeIn: { opacity: 1, transition: { duration: 1 * pos } },
   };
 
   return (
@@ -23,14 +30,15 @@ export default function SideTile({ genre, pos, onSelect }) {
       whileHover={{ scale: 1.05 }}
     >
       <li
+        id={genre.id}
         className={
           highlighted
-            ? "p-2 bg-cyan-600 rounded-xl rounded-r-none duration-200 cursor-pointer"
-            : "p-2 hover:bg-neutral-900 rounded-xl rounded-r-none duration-200 cursor-pointer"
+            ? "p-3 bg-cyan-600 rounded-xl rounded-r-none duration-200 select-none"
+            : "p-3 hover:bg-neutral-900 rounded-xl rounded-r-none duration-200 select-none"
         }
-        onClick={handleClick}
+        onClick={toggleHighlighted}
       >
-        {genre.title}
+        {genre.name}
       </li>
     </motion.div>
   );

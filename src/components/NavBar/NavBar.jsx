@@ -42,11 +42,18 @@ export default function NavBar() {
         <input
           type="text"
           id="simple-search"
-          className="bg-neutral-800 border border-neutral-700 text-neutral-100 text-sm rounded-lg p-2 w-full"
+          className=" hover:bg-cyan-600 border border-neutral-700 text-neutral-100 text-sm rounded-lg p-2 w-full"
           placeholder="Search..."
           value={search}
           onChange={handleSetSearch}
           onFocus={toggleSearchOn}
+          style={{
+            fontFamily: "'Arabic Typesetting', serif",
+            fontSize: "25px",
+            padding: "0.75rem",
+            color: "yellow", // couleur par défaut
+            transition: "color 0.3s", // animation douce au survol
+          }}
         />
         {showSearch && (
           <SearchResults search={search} onSelect={handleSelectMovie} />

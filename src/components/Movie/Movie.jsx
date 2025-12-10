@@ -29,10 +29,28 @@ export default function Movie({ data, dataset }) {
         }}
       />
       <div className="p-2.5 space-y-1">
-        <p className="text-neutral-500 text-xs line-clamp-3">
+        <p
+          className="text-neutral-500 text-xs line-clamp-3"
+          style={{
+            fontFamily: "'Arabic Typesetting', serif",
+            fontSize: "18px",
+            padding: "0.75rem",
+            color: "yellow", // couleur par défaut
+            transition: "color 0.3s", // animation douce au survol
+          }}
+        >
           {data.description ?? ""}
         </p>
-        <p className="text-neutral-100 text-sm line-clamp-1">
+        <p
+          className="text-neutral-100 text-sm line-clamp-1"
+          style={{
+            fontFamily: "'Arabic Typesetting', serif",
+            fontSize: "22px",
+            padding: "0.75rem",
+            color: "yellow", // couleur par défaut
+            transition: "color 0.3s", // animation douce au survol
+          }}
+        >
           {data.title ?? "Untitled"}
         </p>
       </div>
