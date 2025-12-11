@@ -6,6 +6,7 @@
     "thumbnail": "https://img.youtube.com/vi/XGFHsninoiQ/hqdefault.jpg",
     "url": "https://youtu.be/XGFHsninoiQ"
   },
+
   {
     "id": 2,
     "title": "نور اليقين - الجزء 2",
@@ -40,5 +41,12 @@
     "description": "سيرة سيد المرسلين — د. منير الكمنتر",
     "thumbnail": "https://img.youtube.com/vi/qU8CeX1D_6g/hqdefault.jpg",
     "url": "https://youtu.be/qU8CeX1D_6g"
+  },
+  {
+    "id": 7,
+    "title": "سيرة النبوية :غزوة مؤتة",
+    "description": "سيرة سيد المرسلين — د. منير الكمنتر",
+    "thumbnail": "https://img.youtube.com/vi/qU8CeX1D_6g/hqdefault.jpg",
+    "url": "https://drive.google.com/file/d/11yo37ulGkx_ajJ1Ok8C--rTl4AlUmtk0/preview"
   }
 ]

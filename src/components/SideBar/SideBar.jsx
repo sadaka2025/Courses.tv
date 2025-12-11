@@ -8,8 +8,8 @@ export default function SideBar({ onSelectGenre }) {
   const dispatch = useDispatch();
 
   const categories = [
-    { id: "motoun", title: "متون", videos: motounData },
-    { id: "nour", title: "نور اليقين", videos: nourData },
+    { id: "motoun", title: "المتون الشرعية", videos: motounData },
+    { id: "nour", title: " سيرة النبي محمدﷺ ", videos: nourData },
   ];
 
   return (
